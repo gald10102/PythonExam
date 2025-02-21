@@ -6,31 +6,30 @@ tf = Terraform(working_dir='./')
 
 # run terraform init
 print("Running terraform init...")
-init_code, init_stdout, init_stderr = tf.init()
-if init_code != 0:
-    print(f"Error during terraform init: {init_stderr}")
-    sys.exit(1)
+output = tf.init(capture_output = True)
+if "Error" in output[2]: #if there is an error prints it 
+    print(f"Error during terraform plan: {output[2]}")
 else:
-    print(init_stdout)
+    print(output[1]) #prints the output of init
 
 # run terraform plan
 print("Running terraform plan...")
-plan_code, plan_stdout, plan_stderr = tf.plan()
-if plan_code != 0:
-    print(f"Error during terraform plan: {plan_stderr}")
-    sys.exit(1)
+output = tf.plan(capture_output = True)
+if "Error" in output[2]:
+    print(f"Error during terraform plan: {output[2]}")
 else:
-    print(plan_stdout)
+    print(output[1])#prints the output of plan
+
 
 
 # run terraform apply
 print("Running terraform apply...")
-apply_code, apply_stdout, apply_stderr = tf.apply(skip_plan=True)
-if apply_code != 0:
-    print(f"Error during terraform apply: {apply_stderr}")
-    sys.exit(1)
+apply_code, apply_stdout, apply_stderr = tf.apply(skip_plan=True) #skip plain because it already performed it 
+output = tf.apply(skip_plan=True)
+if "Error" in output[2]:
+    print(f"Error during terraform plan: {output[2]}")
 else:
-    print(apply_stdout)
+    print(output[1]) #prints the output of apply
 
 # taking the output of the terraform
 output_code, output_stdout, output_stderr = tf.output()
