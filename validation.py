@@ -3,7 +3,7 @@ import sys
 import boto3
 from time import sleep
 
-# Mock EC2 response
+# mocking ec2 response
 def mock_describe_instances(instance_id):
     # Simulating a response for an EC2 instance
     return {
@@ -16,7 +16,7 @@ def mock_describe_instances(instance_id):
         }]
     }
 
-# Mock ELB response
+# mocking lb response
 def mock_describe_load_balancers(load_balancer_name):
     # Simulating a response for an ALB
     return {
@@ -29,10 +29,11 @@ def mock_describe_load_balancers(load_balancer_name):
 # ec2_client = boto3.client('ec2', region_name='us-east-1')
 # elb_client = boto3.client('elbv2', region_name='us-east-1')
 
-# Mock ec2 and lb client methods
+# mocking ec2 and lb client methods
 ec2_client = {'describe_instances': mock_describe_instances}
 elb_client = {'describe_load_balancers': mock_describe_load_balancers}
 
+#gettingn ec2 info from aws
 def get_ec2_instance_details(instance_id):
     try:
         response = ec2_client['describe_instances'](instance_id)
@@ -56,7 +57,7 @@ def get_ec2_instance_details(instance_id):
         print(f"Error fetching EC2 details: {e}")
         sys.exit(1)
 
-# getting lb details
+# #gettingn lb info from aws
 def get_alb_details(load_balancer_name):
     try:
         response = elb_client['describe_load_balancers'](load_balancer_name)
@@ -71,7 +72,7 @@ def get_alb_details(load_balancer_name):
 
 #input data that being used to get info from aws
 instance_id_from_terraform = 'i-0123456789abcdef1'  # fake id to mock 
-load_balancer_name_from_terraform = 'gal-lb-2'
+load_balancer_name_from_terraform = 'gal-lb' # the name of the lb 
 
 # getting ec2 info
 instance_id, instance_state, public_ip = get_ec2_instance_details(instance_id_from_terraform)
